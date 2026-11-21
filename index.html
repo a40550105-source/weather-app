@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A clear, detailed weather forecast for wherever you are."
+    />
+    <meta name="theme-color" content="#f5f7fb" />
+    <title>Weatherly — weather, made clearer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Weatherly home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="18.5" cy="12.5" r="7" fill="currentColor" />
+              <path
+                d="M8.5 24.5h15a5 5 0 0 0 .4-10 7.5 7.5 0 0 0-14.2 2.2 4 4 0 0 0-1.2 7.8Z"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span>weatherly<span class="brand-period">.</span></span>
+        </a>
+
+        <form class="search-form" id="search-form" role="search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8" />
+            <path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+          <label class="sr-only" for="city-search">Search for a city</label>
+          <input
+            id="city-search"
+            name="city"
+            type="search"
+            placeholder="Search any city..."
+            autocomplete="off"
+            required
+          />
+          <button class="search-button" type="submit">Search</button>
+        </form>
+
+        <div class="topbar-actions">
+          <button class="location-button" id="location-button" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+              <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.7" />
+            </svg>
+            <span>My location</span>
+          </button>
+          <div class="unit-toggle" role="group" aria-label="Temperature units">
+            <button type="button" class="unit-button is-active" data-unit="c" aria-pressed="true">°C</button>
+            <button type="button" class="unit-button" data-unit="f" aria-pressed="false">°F</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="dashboard" aria-label="Weather dashboard">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">YOUR WEATHER, AT A GLANCE</p>
+            <h1>Good morning<span class="heading-period">.</span></h1>
+          </div>
+          <p class="today-date" id="today-date"></p>
+        </div>
+
+        <div id="status-message" class="status-message" role="status" aria-live="polite" hidden></div>
+
+        <section class="weather-hero" aria-label="Current weather">
+          <div class="hero-copy">
+            <div class="location-heading">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+                <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.7" />
+              </svg>
+              <div>
+                <h2 id="city-name">New York</h2>
+                <p id="city-region">United States</p>
+              </div>
+            </div>
+            <div class="temperature-row">
+              <span class="current-temperature" id="current-temperature">--</span>
+              <span class="weather-icon current-icon" id="current-icon" aria-hidden="true"></span>
+            </div>
+            <p class="weather-description" id="weather-description">Getting your forecast...</p>
+            <p class="feels-like" id="feels-like"></p>
+          </div>
+
+          <div class="hero-divider" aria-hidden="true"></div>
+
+          <div class="weather-details" aria-label="Weather details">
+            <article class="detail-item">
+              <span class="detail-icon humidity-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5S5.5 11 5.5 15.5a6.5 6.5 0 1 0 13 0C18.5 11 12 3.5 12 3.5Z" stroke="currentColor" stroke-width="1.7" /><path d="M9 16.5a3 3 0 0 0 3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+              </span>
+              <div><span class="detail-label">Humidity</span><strong id="humidity-value">--%</strong></div>
+            </article>
+            <article class="detail-item">
+              <span class="detail-icon wind-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 8h12.5a2.5 2.5 0 1 0-2.5-2.5M2 12h17a2.5 2.5 0 1 1-2.5 2.5M4 16h7.5a2.5 2.5 0 1 1-2.5 2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" /></svg>
+              </span>
+              <div><span class="detail-label">Wind speed</span><strong id="wind-value">-- km/h</strong></div>
+            </article>
+            <article class="detail-item">
+              <span class="detail-icon sunrise-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 18h18M5 14h14M12 3v2m-7 0 1.5 1.5m11-1.5L16 6m-8 8a4 4 0 1 1 8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <div><span class="detail-label">Sunrise</span><strong id="sunrise-value">--:--</strong></div>
+            </article>
+            <article class="detail-item">
+              <span class="detail-icon sunset-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 18h18M5 14h14M12 3v2m-7 0 1.5 1.5m11-1.5L16 6m-8 8a4 4 0 1 1 8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+              <div><span class="detail-label">Sunset</span><strong id="sunset-value">--:--</strong></div>
+            </article>
+          </div>
+          <div class="hero-decoration" aria-hidden="true"></div>
+        </section>
+
+        <section class="forecast-section" aria-labelledby="hourly-title">
+          <div class="section-heading">
+            <div><span class="section-kicker">PLAN AHEAD</span><h2 id="hourly-title">Today’s forecast</h2></div>
+            <span class="section-note">Next 24 hours</span>
+          </div>
+          <div class="hourly-card" id="hourly-forecast" aria-live="polite">
+            <p class="loading-placeholder">Loading hourly forecast...</p>
+          </div>
+        </section>
+
+        <section class="forecast-section weekly-section" aria-labelledby="weekly-title">
+          <div class="section-heading">
+            <div><span class="section-kicker">THE WEEK AHEAD</span><h2 id="weekly-title">7-day forecast</h2></div>
+            <span class="section-note">Daily outlook</span>
+          </div>
+          <div class="weekly-card" id="weekly-forecast" aria-live="polite">
+            <p class="loading-placeholder">Loading weekly forecast...</p>
+          </div>
+        </section>
+        <footer class="footer"><span>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a></span><span>Made for wherever the day takes you <span aria-hidden="true">✦</span></span></footer>
+      </section>
+    </main>
+  </body>
+</html>
